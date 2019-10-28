@@ -1,6 +1,6 @@
 {
   "name": "custom-reading-reports",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node Library for Custom Reports for Amplify Reading K-5",
   "main": "index.js",
   "scripts": {
