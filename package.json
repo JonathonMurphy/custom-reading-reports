@@ -1,0 +1,16 @@
+{
+  "name": "custom-reading-reports",
+  "version": "1.0.0",
+  "description": "Node Library for Custom Reports for Amplify Reading K-5",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonathon Seth Murphy",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "json-csv": "^2.0.3",
+    "querystring": "^0.2.0"
+  }
+}

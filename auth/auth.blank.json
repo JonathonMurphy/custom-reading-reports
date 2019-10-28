@@ -1,0 +1,6 @@
+{
+  "cookie_comment": "Located in the token request header",
+  "cookie": "",
+  "bearer_comment": "Located in the aquaAPI requests request header",
+  "bearer": ""
+}
