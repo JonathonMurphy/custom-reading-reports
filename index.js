@@ -4,7 +4,9 @@ const fs = require('fs'),
       es = require('event-stream'),
       jsoncsv = require('json-csv'),
       crr = require('./lib/custom-reading-reports'),
+      // Name of the school or district that the report is for
       schoolName = '',
+      // Enter all Inst SID's that are being used to pull the report 
       instIDArray = [],
       options = {fields: [
           {name: 'inst', label: 'Institution'},
@@ -15,9 +17,11 @@ const fs = require('fs'),
           {name: 'primaryTeacher', label: 'Primary Teacher of Class'}
         ]};
 
+// These will all be left empty
 let obj, res, classe, student;
 let classArray = [];
 let customReport = [];
+
 let timeSpentPostData = {
   StudentIds : [],
   Days: crr.daysSince('October 2, 2019')
