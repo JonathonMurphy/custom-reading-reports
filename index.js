@@ -7,7 +7,7 @@ const fs = require('fs'),
       // Name of the school or district that the report is for
       schoolName = '',
       // Enter all Inst SID's that are being used to pull the report
-      instIDArray = [],
+      instIDArray = [], // Takes Inst SID's as strings 
       options = {fields: [
           {name: 'inst', label: 'Institution'},
           {name: 'className', label: 'Class Name'},
@@ -18,9 +18,10 @@ const fs = require('fs'),
         ]};
 
 // These will all be left empty
-let obj, res, classe, student;
-let classArray = [];
-let studentArray = [];
+let res, classe, student,
+    classArray = [],
+    studentArray = [],
+    studentHashMap = {};
 
 let timeSpentPostData = {
   StudentIds : [],
@@ -29,7 +30,7 @@ let timeSpentPostData = {
 
 (async () => {
   // Pull class data from admin and make a new object with it
-  // Does not pull any student data
+  // Note: Does not pull any student data
   let classDataRes = await crr.getClassData(instIDArray);
   for (classe of classDataRes.classes) {
     let tempObj = new crr.ClassObject(classe);
@@ -39,23 +40,21 @@ let timeSpentPostData = {
   for (classObj of classArray) {
     let classStateRes = await crr.getClassState(classObj.classID);
     for (student of classStateRes) {
-      let tempObj = new crr.StudentObject(student, classObj);
-      studentArray.push(tempObj);
-      timeSpentPostData.StudentIds.push(tempObj.aquaID);
+      studentHashMap[student.UserId] = new crr.StudentObject(student, classObj);
+      timeSpentPostData.StudentIds.push(student.UserId);
     };
   };
   // Pull the usage time for all the students and
-  // merge the two arrays (timeSpentRes and studentArray)
-  // together
+  // add it to the students entries in the hashmap
   let timeSpentRes = await crr.getUsageStats(timeSpentPostData);
   for (res of timeSpentRes) {
-    for (student of studentArray) {
-      if (res.user_id == student.aquaID) {
-        student.timePlayed = crr.secondsToHoursAndMinutes(res.duration);
-      };
-    };
+    studentHashMap[res.user_id].timePlayed = res.duration;
   };
-
+  // Extracts the student values from the hashmap and places them
+  // into an array for export to csv
+  for (student of Object.values(studentHashMap)) {
+    studentArray.push(student);
+  };
   let out = fs.createWriteStream(`./reports/${schoolName}CustomReport.csv`, {encoding: 'utf8'});
   let readable = es.readArray(studentArray);
   readable
