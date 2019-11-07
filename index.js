@@ -5,27 +5,27 @@ const fs = require('fs'),
       jsoncsv = require('json-csv'),
       crr = require('./lib/custom-reading-reports'),
       // Name of the school or district that the report is for
-      schoolName = '',
+      schoolName = 'O Melveny Elementary',
       // Enter all Inst SID's that are being used to pull the report
-      instIDArray = [], // Takes Inst SID's as strings 
+      instIDArray = ['301562928'], // Takes Inst SID's as strings
       options = {fields: [
           {name: 'inst', label: 'Institution'},
           {name: 'className', label: 'Class Name'},
           {name: 'primaryTeacher', label: 'Primary Teacher of Class'},
           {name: 'fullName', label: 'Students Name'},
           {name: 'gradeLevel', label: 'Grade Level'},
-          {name: 'timePlayed', label: 'Time Played since October 2, 2019'}
+          {name: 'timePlayed', label: 'Time Played since September 11, 2019'}
         ]};
 
 // These will all be left empty
-let res, classe, student,
+let res, classe, student, classObj,
     classArray = [],
     studentArray = [],
     studentHashMap = {};
 
 let timeSpentPostData = {
   StudentIds : [],
-  Days: crr.daysSince('October 2, 2019')
+  Days: crr.daysSince('September 11, 2019')
 };
 
 (async () => {
@@ -48,14 +48,14 @@ let timeSpentPostData = {
   // add it to the students entries in the hashmap
   let timeSpentRes = await crr.getUsageStats(timeSpentPostData);
   for (res of timeSpentRes) {
-    studentHashMap[res.user_id].timePlayed = res.duration;
+    studentHashMap[res.user_id].timePlayed = crr.secondsToHoursAndMinutes(res.duration);
   };
   // Extracts the student values from the hashmap and places them
   // into an array for export to csv
   for (student of Object.values(studentHashMap)) {
     studentArray.push(student);
   };
-  let out = fs.createWriteStream(`./reports/${schoolName}CustomReport.csv`, {encoding: 'utf8'});
+  let out = fs.createWriteStream(`./reports/${schoolName} Custom Report.csv`, {encoding: 'utf8'});
   let readable = es.readArray(studentArray);
   readable
     .pipe(jsoncsv.csv(options))
