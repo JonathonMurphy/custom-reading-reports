@@ -5,16 +5,16 @@ const fs = require('fs'),
       jsoncsv = require('json-csv'),
       crr = require('./lib/custom-reading-reports'),
       // Name of the school or district that the report is for
-      schoolName = 'O Melveny Elementary',
+      schoolName = 'Sylvan Park Elementary',
       // Enter all Inst SID's that are being used to pull the report
-      instIDArray = ['301562928'], // Takes Inst SID's as strings
+      instIDArray = ['517763301'], // Takes Inst SID's as strings
       options = {fields: [
           {name: 'inst', label: 'Institution'},
           {name: 'className', label: 'Class Name'},
           {name: 'primaryTeacher', label: 'Primary Teacher of Class'},
           {name: 'fullName', label: 'Students Name'},
           {name: 'gradeLevel', label: 'Grade Level'},
-          {name: 'timePlayed', label: 'Time Played since September 11, 2019'}
+          {name: 'timePlayed', label: 'Time Played since October 1, 2019'}
         ]};
 
 // These will all be left empty
@@ -25,7 +25,7 @@ let res, classe, student, classObj,
 
 let timeSpentPostData = {
   StudentIds : [],
-  Days: crr.daysSince('September 11, 2019')
+  Days: crr.daysSince('October 1, 2019')
 };
 
 (async () => {
