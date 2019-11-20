@@ -3,7 +3,7 @@ Node library for custom reading reports
 
 ### Setup
 * Node.js installed on your machine
-* Run 'npm insall' from your /customReadingReports/ directory to install dependencies
+* Run 'npm insall' from your /custom-reading-reports/ directory to install dependencies
 
 ##### What you'll need
 
@@ -32,4 +32,4 @@ Node library for custom reading reports
 
 Now your index.js file has been setup to pull data from the correct school(s), for the correct start date, and we have our API access setup with our auth.json file. Open a terminal, navigate to the directory that you downloaded this repo and run 'node index.js'. If all went well you should have a csv file in the reports folder with your custom report.
 
-Hit me up if you run into errors or if you just wanna chat. 
+Hit me up if you run into errors or if you just wanna chat.
